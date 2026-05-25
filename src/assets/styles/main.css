@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ink-black: #041c20;
+  --color-prussian-blue: #071126;
+  --color-black: #09090b;
+  --color-onyx: #111114;
+  --color-carbon-black: #18181b;
+
+  --color-bg: #ffffff;
+  --color-surface: #f6f7f9;
+  --color-surface-2: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --color-border: rgba(15, 23, 42, 0.14);
+  --color-ring: rgba(7, 17, 38, 0.35);
+  --color-accent: var(--color-prussian-blue);
+  --color-accent-contrast: #ffffff;
+
+  /* Tambahkan ini untuk Button Submit */
+  --color-btn-submit-bg: #00adb5;
+  --color-btn-submit-text: #0b132b;
+  --color-btn-submit-hover: #008990;
+}
+
+[data-theme='dark'] {
+  --color-bg: var(--color-prussian-blue);
+  --color-surface: var(--color-onyx);
+  --color-surface-2: var(--color-carbon-black);
+  --color-text: rgba(255, 255, 255, 0.92);
+  --color-muted: rgba(255, 255, 255, 0.7);
+  --color-border: rgba(255, 255, 255, 0.12);
+  --color-ring: rgba(255, 255, 255, 0.25);
+  --color-accent: rgba(255, 255, 255, 0.92);
+  --color-accent-contrast: var(--color-black);
+
+  /* Tambahkan ini untuk Button Submit */
+  --color-btn-submit-bg: #00adb5;
+  --color-btn-submit-text: #0b132b;
+  --color-btn-submit-hover: #008990;
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: var(--color-prussian-blue);
+    --color-surface: var(--color-onyx);
+    --color-surface-2: var(--color-carbon-black);
+    --color-text: rgba(255, 255, 255, 0.92);
+    --color-muted: rgba(255, 255, 255, 0.7);
+    --color-border: rgba(255, 255, 255, 0.12);
+    --color-ring: rgba(255, 255, 255, 0.25);
+    --color-accent: rgba(255, 255, 255, 0.92);
+    --color-accent-contrast: var(--color-black);
+  }
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-VariableFont_opsz\,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Italic-VariableFont_opsz\,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
