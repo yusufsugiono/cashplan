@@ -1,56 +1,168 @@
+import { useState } from 'react';
+
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '../../constants/categories';
+import { loadFromStorage, saveToStorage, STORAGE_KEYS } from '../../lib/storage';
 
-export default function CashflowForm({ mode }) {
-  const inputConfig = [
-    {
-      id: 'amount',
-      type: 'text',
-      label: mode === 'EXPENSE' ? 'Expense Amount' : 'Income Amount',
-      inputMode: 'tel',
-    },
-    {
-      id: 'description',
-      type: 'text',
-      label: 'Description',
-    },
-    {
-      id: 'date',
-      type: 'date',
-      label: 'Date',
-    },
-  ];
+// ─── Nilai awal form ────────────────────────────────────────────────────────
 
+const INITIAL_FORM = {
+  amount: '',
+  description: '',
+  date: '',
+  category: '',
+};
+
+// ─── Validasi ────────────────────────────────────────────────────────────────
+
+/**
+ * Memvalidasi data form sebelum disimpan.
+ * Mengembalikan object errors: { fieldName: 'pesan error' }
+ * Jika tidak ada error, object akan kosong {}.
+ */
+function validateForm(formData) {
+  const errors = {};
+
+  if (!formData.amount.trim()) {
+    errors.amount = 'Nominal wajib diisi';
+  } else if (isNaN(Number(formData.amount.replace(/\./g, '')))) {
+    errors.amount = 'Nominal harus berupa angka';
+  }
+
+  if (!formData.description.trim()) {
+    errors.description = 'Deskripsi wajib diisi';
+  }
+
+  if (!formData.date) {
+    errors.date = 'Tanggal wajib diisi';
+  }
+
+  if (!formData.category) {
+    errors.category = 'Kategori wajib dipilih';
+  }
+
+  return errors;
+}
+
+// ─── Komponen ────────────────────────────────────────────────────────────────
+
+/**
+ * CashflowForm — form untuk mencatat transaksi baru (income atau expense).
+ *
+ * Props:
+ * - mode: 'INCOME' | 'EXPENSE', menentukan label dan pilihan kategori
+ * - onSaved: function, dipanggil setelah transaksi berhasil disimpan
+ */
+export default function CashflowForm({ mode, onSaved }) {
+  const [formData, setFormData] = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState({});
+
+  // Pilihan kategori berubah sesuai mode (income/expense)
   const categoryOptions = mode === 'EXPENSE' ? EXPENSE_CATEGORIES : INCOME_CATEGORIES;
 
+  // ─── Handlers ──────────────────────────────────────────────────────────────
+
+  /**
+   * Handler generik untuk semua field input.
+   * Menggunakan `name` attribute dari input untuk update field yang sesuai.
+   */
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Hapus error untuk field yang sedang diubah
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  }
+
+  /**
+   * Handler submit form.
+   * Validasi → simpan ke localStorage → reset form → callback ke parent.
+   */
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // Validasi semua field
+    const validationErrors = validateForm(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // Buat object transaksi baru
+    const newTransaction = {
+      id: Date.now(), // ID sementara, cukup untuk MVP
+      type: mode,
+      amount: Number(formData.amount.replace(/\./g, '')),
+      description: formData.description.trim(),
+      date: formData.date,
+      category: formData.category,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Ambil data lama, tambahkan transaksi baru, simpan kembali
+    const existingTransactions = loadFromStorage(STORAGE_KEYS.TRANSACTIONS);
+    saveToStorage(STORAGE_KEYS.TRANSACTIONS, [...existingTransactions, newTransaction]);
+
+    // Reset form ke kondisi awal
+    setFormData(INITIAL_FORM);
+    setErrors({});
+
+    // Beritahu parent bahwa data sudah tersimpan
+    if (onSaved) onSaved();
+  }
+
+  // ─── Render ────────────────────────────────────────────────────────────────
+
   return (
-    <form className="mt-5 mx-3 border border-solid border-[var(--color-ring)] rounded-md p-2">
-      {inputConfig.map((item) => {
-        const { id, type, label } = item;
-        return (
-          <Input
-            key={id}
-            id={id}
-            type={type}
-            label={label}
-            {...(item.inputMode && { inputMode: item.inputMode })}
-          />
-        );
-      })}
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="mt-5 mx-3 border border-solid border-[var(--color-ring)] rounded-md p-2"
+    >
+      <Input
+        id="amount"
+        type="text"
+        inputMode="tel"
+        label={mode === 'EXPENSE' ? 'Nominal Pengeluaran' : 'Nominal Pemasukan'}
+        value={formData.amount}
+        onChange={handleChange}
+      />
+      {errors.amount && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.amount}</p>}
+
+      <Input
+        id="description"
+        type="text"
+        label="Deskripsi"
+        value={formData.description}
+        onChange={handleChange}
+      />
+      {errors.description && (
+        <p className="text-red-500 text-xs -mt-4 mb-4">{errors.description}</p>
+      )}
+
+      <Input id="date" type="date" label="Tanggal" value={formData.date} onChange={handleChange} />
+      {errors.date && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.date}</p>}
 
       <Select
         id="category"
-        label={mode === 'EXPENSE' ? 'Expense Category' : 'Income Category'}
+        label={mode === 'EXPENSE' ? 'Kategori Pengeluaran' : 'Kategori Pemasukan'}
         options={categoryOptions}
+        value={formData.category}
+        onChange={handleChange}
+        placeholder="Pilih kategori"
       />
+      {errors.category && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.category}</p>}
 
-      <div className="p-2 bg-[var(--color-bg)] border-t border-[var(--color-border)] z-10">
+      <div className="p-2 bg-[var(--color-bg)] border-t border-[var(--color-border)]">
         <button
           type="submit"
           className="block w-full bg-[var(--color-btn-submit-bg)] text-[var(--color-btn-submit-text)] h-[40px] rounded-md font-medium"
         >
-          Save
+          SIMPAN
         </button>
       </div>
     </form>
