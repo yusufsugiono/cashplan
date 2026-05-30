@@ -24,11 +24,11 @@ export default function HistoryPage() {
 
       <PillButtonGroup>
         <PillButton isActive={activeTab === 'INCOME'} onClick={() => setActiveTab('INCOME')}>
-          Income
+          Pemasukan
         </PillButton>
 
         <PillButton isActive={activeTab === 'EXPENSE'} onClick={() => setActiveTab('EXPENSE')}>
-          Expense
+          Pengeluaran
         </PillButton>
       </PillButtonGroup>
 

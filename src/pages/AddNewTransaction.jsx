@@ -33,14 +33,14 @@ export default function AddNewTransaction() {
           isActive={activeTab === TRANSACTION_TYPES.INCOME}
           onClick={() => setActiveTab(TRANSACTION_TYPES.INCOME)}
         >
-          Income
+          Pemasukan
         </PillButton>
 
         <PillButton
           isActive={activeTab === TRANSACTION_TYPES.EXPENSE}
           onClick={() => setActiveTab(TRANSACTION_TYPES.EXPENSE)}
         >
-          Expense
+          Pengeluaran
         </PillButton>
       </PillButtonGroup>
 
