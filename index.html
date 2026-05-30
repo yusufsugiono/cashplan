@@ -20,26 +20,26 @@
     </script>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons/manifest-icon-192.maskable.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/cashplan/icons/manifest-icon-192.maskable.png" />
 
     <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/cashplan/icons/apple-icon-180.png" />
 
     <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/cashplan/manifest.json" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="CashPlan" />
     <meta property="og:description" content="Alur Uang Terjaga, Masa Depan Terencana." />
-    <meta property="og:image" content="/icons/manifest-icon-512.maskable.png" />
+    <meta property="og:image" content="/cashplan/icons/manifest-icon-512.maskable.png" />
     <meta property="og:site_name" content="CashPlan" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="CashPlan" />
     <meta name="twitter:description" content="Alur Uang Terjaga, Masa Depan Terencana." />
-    <meta name="twitter:image" content="/icons/manifest-icon-512.maskable.png" />
+    <meta name="twitter:image" content="/cashplan/icons/manifest-icon-512.maskable.png" />
 
     <title>CashPlan</title>
   </head>
@@ -51,7 +51,7 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
+          navigator.serviceWorker.register('/cashplan/sw.js', { scope: '/cashplan/' });
         });
       }
     </script>

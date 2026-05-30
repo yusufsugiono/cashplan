@@ -4,9 +4,14 @@
  */
 
 const CACHE_NAME = 'cashplan-v1';
+const BASE_PATH = '/cashplan/';
 
 // Assets yang di-cache saat install
-const PRECACHE_ASSETS = ['/', '/manifest.json', '/icons/android/launchericon-192x192.png'];
+const PRECACHE_ASSETS = [
+  BASE_PATH,
+  BASE_PATH + 'manifest.json',
+  BASE_PATH + 'icons/manifest-icon-192.maskable.png',
+];
 
 // Install: cache assets awal
 self.addEventListener('install', (event) => {
@@ -33,7 +38,7 @@ self.addEventListener('fetch', (event) => {
   // Navigasi (HTML pages) — network first, fallback ke cache
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).catch(() => caches.match('/')),
+      fetch(request).catch(() => caches.match(BASE_PATH)),
     );
     return;
   }
