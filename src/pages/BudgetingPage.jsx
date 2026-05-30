@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaPlus } from 'react-icons/fa6';
+import Swal from 'sweetalert2';
 
 import AppBar from '../layouts/AppBar';
 import BottomNav from '../layouts/BottomNav';
@@ -17,9 +18,19 @@ export default function BudgetingPage() {
   // ─── Handlers ──────────────────────────────────────────────────────────────
 
   /** Hapus satu rencana budget berdasarkan ID */
-  function handleDelete(budgetId) {
-    const confirmed = window.confirm('Yakin ingin menghapus rencana ini?');
-    if (!confirmed) return;
+  async function handleDelete(budgetId) {
+    const result = await Swal.fire({
+      icon: 'warning',
+      title: 'Hapus Rencana',
+      text: 'Yakin ingin menghapus rencana ini?',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Hapus',
+      cancelButtonText: 'Batal',
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#6b7280',
+    });
+
+    if (!result.isConfirmed) return;
 
     const updated = budgets.filter((b) => b.id !== budgetId);
     setBudgets(updated);
