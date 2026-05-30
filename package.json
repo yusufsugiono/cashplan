@@ -1,5 +1,6 @@
 {
-  "name": "finance-tracker",
+  "name": "cashplan",
+  "description": "Aplikasi pencatat keuangan pribadi. Alur Uang Terjaga, Masa Depan Terencana.",
   "author": "Yusuf Sugiono",
   "private": true,
   "version": "0.0.0",

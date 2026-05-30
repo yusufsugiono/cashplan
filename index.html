@@ -1,13 +1,59 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>finance-tracker</title>
+    <meta name="description" content="CashPlan — Alur Uang Terjaga, Masa Depan Terencana. Aplikasi pencatat keuangan pribadi." />
+    <meta name="theme-color" content="#00ADB5" />
+
+    <!-- Terapkan tema dari localStorage sebelum render untuk menghindari flash -->
+    <script>
+      (function() {
+        try {
+          var settings = JSON.parse(localStorage.getItem('settings') || '{}');
+          var theme = settings.theme || 'system';
+          if (theme === 'light' || theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', theme);
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/manifest-icon-192.maskable.png" />
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180.png" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CashPlan" />
+    <meta property="og:description" content="Alur Uang Terjaga, Masa Depan Terencana." />
+    <meta property="og:image" content="/icons/manifest-icon-512.maskable.png" />
+    <meta property="og:site_name" content="CashPlan" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="CashPlan" />
+    <meta name="twitter:description" content="Alur Uang Terjaga, Masa Depan Terencana." />
+    <meta name="twitter:image" content="/icons/manifest-icon-512.maskable.png" />
+
+    <title>CashPlan</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
   </body>
 </html>
