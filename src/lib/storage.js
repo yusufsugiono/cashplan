@@ -35,9 +35,46 @@ export function saveToStorage(key, data) {
   }
 }
 
+// ─── Settings ────────────────────────────────────────────────────────────────
+
+/** Nilai default untuk settings aplikasi */
+const DEFAULT_SETTINGS = {
+  userName: 'Yusuf Sugiono',
+  theme: 'system', // 'light' | 'dark' | 'system'
+  cycleStartDay: 1, // tanggal mulai siklus (1-28)
+};
+
+/**
+ * Membaca settings dari localStorage.
+ * Mengembalikan object settings yang sudah di-merge dengan default values,
+ * sehingga key yang belum ada tetap punya nilai.
+ *
+ * @returns {object} Settings aplikasi
+ */
+export function loadSettings() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+    const saved = raw ? JSON.parse(raw) : {};
+    return { ...DEFAULT_SETTINGS, ...saved };
+  } catch {
+    console.error('Gagal membaca settings dari localStorage');
+    return { ...DEFAULT_SETTINGS };
+  }
+}
+
+/**
+ * Menyimpan settings ke localStorage.
+ *
+ * @param {object} settings - Object settings yang akan disimpan
+ */
+export function saveSettings(settings) {
+  saveToStorage(STORAGE_KEYS.SETTINGS, settings);
+}
+
 // Key constants untuk localStorage — semua key dikumpulkan di sini
 // agar tidak ada typo saat dipakai di berbagai tempat
 export const STORAGE_KEYS = {
   TRANSACTIONS: 'transactions',
   BUDGETS: 'budgets',
+  SETTINGS: 'settings',
 };

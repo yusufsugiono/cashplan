@@ -6,6 +6,7 @@ import AddNewTransaction from './pages/AddNewTransaction';
 import HistoryPage from './pages/HistoryPage';
 import BudgetingPage from './pages/BudgetingPage';
 import AddBudgetPage from './pages/AddBudgetPage';
+import SettingsPage from './pages/SettingsPage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route path={ROUTES.HISTORY} element={<HistoryPage />} />
       <Route path={ROUTES.BUDGETING} element={<BudgetingPage />} />
       <Route path={ROUTES.ADD_BUDGET} element={<AddBudgetPage />} />
+      <Route path={ROUTES.SETTINGS} element={<SettingsPage />} />
     </Routes>
   );
 }
