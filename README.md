@@ -50,21 +50,29 @@ src/
 │       └── PillButtonGroup.jsx  # Container untuk PillButton
 │
 ├── constants/               # App-wide constants dan static data
-│   └── categories.js       # Daftar kategori expense & income
+│   ├── categories.js       # Daftar kategori expense & income
+│   └── routes.js           # Definisi semua route path aplikasi
 │
 ├── features/                # Feature-based modules (grouped by domain)
+│   ├── dashboard/           # Fitur halaman utama
+│   │   ├── Greeting.jsx     # Komponen sapaan + info periode
+│   │   └── SummaryCard.jsx  # Card ringkasan saldo/pemasukan/pengeluaran
 │   └── transactions/        # Semua yang terkait fitur transaksi
 │       └── CashflowForm.jsx # Form untuk input transaksi baru
 │
 ├── hooks/                   # Custom React hooks
 │
 ├── layouts/                 # Layout/structural components
-│   └── AppBar.jsx           # Top navigation bar dengan back button
+│   ├── AppBar.jsx           # Top navigation bar dengan back button
+│   └── BottomNav.jsx        # Bottom navigation bar (halaman utama)
 │
 ├── lib/                     # Utility functions, helpers, formatters
+│   ├── currency.js          # formatRupiah()
+│   └── storage.js           # Wrapper localStorage (loadFromStorage, saveToStorage)
 │
 ├── pages/                   # Route-level page components (1 file = 1 route)
-│   └── AddNewTransaction.jsx
+│   ├── HomePage.jsx         # Route: /
+│   └── AddNewTransaction.jsx # Route: /transactions/new
 │
 ├── App.jsx                  # Root component, route definitions
 └── main.jsx                 # Entry point, providers (BrowserRouter, StrictMode)

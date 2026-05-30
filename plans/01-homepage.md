@@ -1,5 +1,7 @@
 # Plan: Homepage
 
+## Status: ✅ Selesai
+
 ## Deskripsi
 
 Halaman utama yang menampilkan ringkasan keuangan pengguna: saldo, total pemasukan, dan total pengeluaran dalam periode tertentu. Terdapat greeting, summary cards, dan bottom navigation.
