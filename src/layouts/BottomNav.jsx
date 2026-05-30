@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaHouse, FaWallet, FaPlus, FaClockRotateLeft, FaGear } from 'react-icons/fa6';
+import { FaHouse, FaWallet, FaClockRotateLeft, FaGear, FaArrowRightArrowLeft } from 'react-icons/fa6';
 
 import { ROUTES } from '../constants/routes';
 
@@ -40,7 +40,7 @@ export default function BottomNav() {
                 aria-label="Tambah transaksi baru"
                 className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-btn-submit-bg)] text-[var(--color-btn-submit-text)] shadow-md -mt-5"
               >
-                <FaPlus className="text-lg" />
+                <FaArrowRightArrowLeft className="text-lg" />
               </button>
             );
           }
