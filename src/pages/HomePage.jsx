@@ -1,4 +1,4 @@
-import { FaDiamond, FaArrowUp, FaArrowDown } from 'react-icons/fa6';
+import { FaSackDollar, FaArrowUp, FaArrowDown } from 'react-icons/fa6';
 
 import Greeting from '../features/dashboard/Greeting';
 import SummaryCard from '../features/dashboard/SummaryCard';
@@ -66,7 +66,7 @@ export default function HomePage() {
     <div className="pb-16">
       <Greeting name={settings.userName} periodStart={period.start} periodEnd={period.end} />
 
-      <SummaryCard icon={FaDiamond} label="Saldo" amount={balance} />
+      <SummaryCard icon={FaSackDollar} label="Saldo" amount={balance} />
       <SummaryCard icon={FaArrowUp} label="Pemasukan" amount={totalIncome} />
       <SummaryCard icon={FaArrowDown} label="Pengeluaran" amount={totalExpense} />
 

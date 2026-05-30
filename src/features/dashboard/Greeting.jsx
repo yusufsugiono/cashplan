@@ -12,7 +12,7 @@ export default function Greeting({ name, periodStart, periodEnd }) {
       <p className="text-sm text-[var(--color-muted)]">Selamat Datang,</p>
       <p className="text-lg font-medium">{name}</p>
       <p className="text-xs text-[var(--color-muted)] mt-1">
-        Berikut adalah rincian cashflow catatan periode {periodStart} hingga {periodEnd}
+        Berikut adalah rincian arus keuangan pada periode {periodStart} hingga {periodEnd}
       </p>
     </div>
   );
