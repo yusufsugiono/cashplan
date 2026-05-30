@@ -1,6 +1,16 @@
-# Finance Tracker
+# CashPlan
 
-Aplikasi pencatat keuangan pribadi untuk tracking pengeluaran dan pemasukan harian.
+Aplikasi pencatat keuangan pribadi. Alur Uang Terjaga, Masa Depan Terencana.
+
+## Fitur
+
+- **Dashboard** — Ringkasan saldo, total pemasukan, dan total pengeluaran dalam periode siklus yang bisa dikustomisasi
+- **Tambah Transaksi** — Catat pemasukan atau pengeluaran dengan kategori, deskripsi, tanggal, dan nominal
+- **Riwayat** — Lihat daftar semua transaksi dengan filter pemasukan/pengeluaran
+- **Perencanaan Anggaran** — Buat rencana budget dengan checklist item yang bisa dicentang
+- **Pengaturan** — Ubah nama profil, tema (light/dark/system), siklus penghitungan, export/import data, dan reset data
+- **PWA** — Installable sebagai aplikasi standalone di mobile dan desktop, dengan offline support via service worker
+- **Theming** — Dark mode otomatis mengikuti sistem atau pilihan manual user
 
 ## Tech Stack
 
