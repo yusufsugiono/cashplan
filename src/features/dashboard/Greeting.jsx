@@ -8,7 +8,7 @@
  */
 export default function Greeting({ name, periodStart, periodEnd }) {
   return (
-    <div className="mx-3 mb-4">
+    <div className="mx-3 mt-4 mb-4">
       <p className="text-sm text-[var(--color-muted)]">Selamat Datang,</p>
       <p className="text-lg font-medium">{name}</p>
       <p className="text-xs text-[var(--color-muted)] mt-1">

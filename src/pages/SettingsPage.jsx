@@ -27,14 +27,14 @@ function applyTheme(theme) {
 
 /** Cycle tema: system → light → dark → system */
 function getNextTheme(current) {
-  const cycle = ['system', 'light', 'dark'];
+  const cycle = ['light', 'dark'];
   const currentIndex = cycle.indexOf(current);
   return cycle[(currentIndex + 1) % cycle.length];
 }
 
 /** Label tema untuk ditampilkan ke user */
 function getThemeLabel(theme) {
-  const labels = { system: 'Sistem', light: 'Terang', dark: 'Gelap' };
+  const labels = { light: 'Terang', dark: 'Gelap' };
   return labels[theme] || 'Sistem';
 }
 
@@ -180,7 +180,7 @@ export default function SettingsPage() {
   // ─── Menu items ────────────────────────────────────────────────────────────
 
   const menuItems = [
-    { label: 'Ubah Profil/Nama', onClick: () => setShowProfileModal(true) },
+    { label: 'Ubah Nama', onClick: () => setShowProfileModal(true) },
     { label: `Ubah Tema (${getThemeLabel(settings.theme)})`, onClick: handleToggleTheme },
     { label: 'Ubah Siklus Penghitungan', onClick: () => setShowCycleModal(true) },
     { label: 'Export Data', onClick: handleExport },

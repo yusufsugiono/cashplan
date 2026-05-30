@@ -39,7 +39,7 @@ export function saveToStorage(key, data) {
 
 /** Nilai default untuk settings aplikasi */
 const DEFAULT_SETTINGS = {
-  userName: 'Yusuf Sugiono',
+  userName: '',
   theme: 'system', // 'light' | 'dark' | 'system'
   cycleStartDay: 1, // tanggal mulai siklus (1-28)
 };

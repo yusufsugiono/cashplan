@@ -1,5 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaHouse, FaWallet, FaClockRotateLeft, FaGear, FaArrowRightArrowLeft } from 'react-icons/fa6';
+import {
+  FaHouse,
+  FaWallet,
+  FaClockRotateLeft,
+  FaGear,
+  FaArrowRightArrowLeft,
+} from 'react-icons/fa6';
 
 import { ROUTES } from '../constants/routes';
 
