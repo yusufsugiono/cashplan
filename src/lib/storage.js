@@ -40,7 +40,7 @@ export function saveToStorage(key, data) {
 /** Nilai default untuk settings aplikasi */
 const DEFAULT_SETTINGS = {
   userName: '',
-  theme: 'system', // 'light' | 'dark' | 'system'
+  theme: 'light', // 'light' | 'dark'
   cycleStartDay: 1, // tanggal mulai siklus (1-28)
 };
 

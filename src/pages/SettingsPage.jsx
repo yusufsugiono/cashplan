@@ -35,7 +35,7 @@ function getNextTheme(current) {
 /** Label tema untuk ditampilkan ke user */
 function getThemeLabel(theme) {
   const labels = { light: 'Terang', dark: 'Gelap' };
-  return labels[theme] || 'Sistem';
+  return labels[theme] || 'Terang';
 }
 
 /** Export semua data localStorage sebagai file JSON */
