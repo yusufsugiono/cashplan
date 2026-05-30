@@ -4,6 +4,8 @@ import { ROUTES } from './constants/routes';
 import HomePage from './pages/HomePage';
 import AddNewTransaction from './pages/AddNewTransaction';
 import HistoryPage from './pages/HistoryPage';
+import BudgetingPage from './pages/BudgetingPage';
+import AddBudgetPage from './pages/AddBudgetPage';
 
 export default function App() {
   return (
@@ -11,6 +13,8 @@ export default function App() {
       <Route path={ROUTES.HOME} element={<HomePage />} />
       <Route path={ROUTES.ADD_TRANSACTION} element={<AddNewTransaction />} />
       <Route path={ROUTES.HISTORY} element={<HistoryPage />} />
+      <Route path={ROUTES.BUDGETING} element={<BudgetingPage />} />
+      <Route path={ROUTES.ADD_BUDGET} element={<AddBudgetPage />} />
     </Routes>
   );
 }

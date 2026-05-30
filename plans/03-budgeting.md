@@ -1,5 +1,7 @@
 # Plan: Budgeting (Perencanaan)
 
+## Status: ✅ Selesai
+
 ## Deskripsi
 
 Halaman perencanaan budget yang menampilkan daftar rencana pengeluaran. Setiap rencana memiliki label, total budget, dan daftar item (checklist). User bisa menambah rencana baru melalui form terpisah.

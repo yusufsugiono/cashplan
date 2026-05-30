@@ -39,4 +39,5 @@ export function saveToStorage(key, data) {
 // agar tidak ada typo saat dipakai di berbagai tempat
 export const STORAGE_KEYS = {
   TRANSACTIONS: 'transactions',
+  BUDGETS: 'budgets',
 };
