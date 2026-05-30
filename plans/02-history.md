@@ -1,5 +1,7 @@
 # Plan: History (Riwayat)
 
+## Status: ✅ Selesai
+
 ## Deskripsi
 
 Halaman riwayat transaksi yang menampilkan daftar semua transaksi (income/expense) dengan filter tab. Setiap item menampilkan tanggal, kategori/deskripsi, dan nominal.
