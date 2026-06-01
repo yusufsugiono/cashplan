@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
+import { formatThousand } from '../../lib/currency';
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '../../constants/categories';
 import { loadFromStorage, saveToStorage, STORAGE_KEYS } from '../../lib/storage';
 
@@ -26,7 +27,7 @@ function validateForm(formData) {
 
   if (!formData.amount.trim()) {
     errors.amount = 'Nominal wajib diisi';
-  } else if (isNaN(Number(formData.amount.replace(/\./g, '')))) {
+  } else if (isNaN(Number(formData.amount))) {
     errors.amount = 'Nominal harus berupa angka';
   }
 
@@ -66,11 +67,18 @@ export default function CashflowForm({ mode, onSaved }) {
   /**
    * Handler generik untuk semua field input.
    * Menggunakan `name` attribute dari input untuk update field yang sesuai.
+   * Untuk field amount, hanya menyimpan digit murni.
    */
   function handleChange(e) {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'amount') {
+      // Simpan hanya digit murni
+      const raw = value.replace(/\D/g, '');
+      setFormData((prev) => ({ ...prev, amount: raw }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
 
     // Hapus error untuk field yang sedang diubah
     if (errors[name]) {
@@ -96,7 +104,7 @@ export default function CashflowForm({ mode, onSaved }) {
     const newTransaction = {
       id: Date.now(), // ID sementara, cukup untuk MVP
       type: mode,
-      amount: Number(formData.amount.replace(/\./g, '')),
+      amount: Number(formData.amount),
       description: formData.description.trim(),
       date: formData.date,
       category: formData.category,
@@ -126,9 +134,9 @@ export default function CashflowForm({ mode, onSaved }) {
       <Input
         id="amount"
         type="text"
-        inputMode="tel"
+        inputMode="numeric"
         label={mode === 'EXPENSE' ? 'Nominal Pengeluaran' : 'Nominal Pemasukan'}
-        value={formData.amount}
+        value={formatThousand(formData.amount)}
         onChange={handleChange}
       />
       {errors.amount && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.amount}</p>}

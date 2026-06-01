@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import BudgetItemInput from './BudgetItemInput';
+import { formatRupiah } from '../../lib/currency';
 import { loadFromStorage, saveToStorage, STORAGE_KEYS } from '../../lib/storage';
 
 // ─── Nilai awal ──────────────────────────────────────────────────────────────
@@ -27,9 +28,9 @@ function validateBudgetForm(label, items) {
     return 'Minimal 1 item harus diisi lengkap (nama dan biaya)';
   }
 
-  // Cek semua biaya yang diisi harus berupa angka
+  // Cek semua biaya yang diisi harus berupa angka (cost sudah berupa digit murni)
   for (const item of items) {
-    if (item.cost.trim() && isNaN(Number(item.cost.replace(/\./g, '')))) {
+    if (item.cost.trim() && isNaN(Number(item.cost))) {
       return `Biaya "${item.name || 'item'}" harus berupa angka`;
     }
   }
@@ -93,7 +94,7 @@ export default function BudgetForm({ onSaved, editData }) {
       .map((item) => ({
         id: Date.now() + Math.random(), // ID unik sederhana
         name: item.name.trim(),
-        amount: Number(item.cost.replace(/\./g, '')),
+        amount: Number(item.cost),
         checked: false,
       }));
 
@@ -179,6 +180,16 @@ export default function BudgetForm({ onSaved, editData }) {
       >
         +
       </button>
+
+      {/* Total biaya (otomatis dihitung, non-editable) */}
+      <div className="mb-5 p-3 bg-[var(--color-bg)] border border-solid border-[var(--color-border)] rounded-md">
+        <span className="text-sm text-[var(--color-muted)]">Total Biaya</span>
+        <p className="text-lg font-medium text-[var(--color-btn-submit-bg)]">
+          {formatRupiah(
+            items.reduce((sum, item) => sum + (item.cost ? Number(item.cost) : 0), 0),
+          )}
+        </p>
+      </div>
 
       {/* Tombol simpan */}
       <div className="p-2 bg-[var(--color-bg)] border-t border-[var(--color-border)]">

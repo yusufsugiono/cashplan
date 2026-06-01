@@ -6,6 +6,7 @@ import AppBar from '../layouts/AppBar';
 import PillButtonGroup from '../components/ui/PillButtonGroup';
 import PillButton from '../components/ui/PillButton';
 import CashflowForm from '../features/transactions/CashflowForm';
+import BottomNav from '../layouts/BottomNav';
 
 // Tipe transaksi yang tersedia
 const TRANSACTION_TYPES = {
@@ -45,6 +46,7 @@ export default function AddNewTransaction() {
       </PillButtonGroup>
 
       <CashflowForm mode={activeTab} onSaved={handleTransactionSaved} />
+      <BottomNav />
     </>
   );
 }

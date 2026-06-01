@@ -15,14 +15,24 @@ import { FaTrash, FaPenToSquare } from 'react-icons/fa6';
  * - onToggleItem: function(itemId), dipanggil saat checkbox item diklik
  */
 export default function BudgetCard({ label, totalAmount, items, onDelete, onEdit, onToggleItem }) {
+  // Hitung sisa biaya dari item yang belum dichecklist
+  const remainingAmount = items
+    .filter((item) => !item.checked)
+    .reduce((sum, item) => sum + item.amount, 0);
+
   return (
     <div className="mx-3 mb-4 border border-solid border-[var(--color-border)] rounded-md p-3">
-      {/* Header: label + total nominal */}
+      {/* Header: label + sisa nominal */}
       <div className="mb-2">
         <h3 className="font-medium">{label}</h3>
         <p className="text-lg font-medium text-[var(--color-btn-submit-bg)]">
-          {formatRupiah(totalAmount)}
+          {formatRupiah(remainingAmount)}
         </p>
+        {remainingAmount !== totalAmount && (
+          <p className="text-xs text-[var(--color-muted)]">
+            dari total {formatRupiah(totalAmount)}
+          </p>
+        )}
       </div>
 
       {/* Body: daftar checklist items */}
