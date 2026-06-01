@@ -40,14 +40,23 @@ function validateBudgetForm(label, items) {
 // ─── Komponen ────────────────────────────────────────────────────────────────
 
 /**
- * BudgetForm — form untuk membuat rencana budget baru.
+ * BudgetForm — form untuk membuat atau mengedit rencana budget.
  *
  * Props:
  * - onSaved: function, dipanggil setelah rencana berhasil disimpan
+ * - editData: object (optional), data budget yang akan diedit { id, label, totalAmount, items }
  */
-export default function BudgetForm({ onSaved }) {
-  const [label, setLabel] = useState('');
-  const [items, setItems] = useState(INITIAL_ITEMS);
+export default function BudgetForm({ onSaved, editData }) {
+  const [label, setLabel] = useState(editData ? editData.label : '');
+  const [items, setItems] = useState(() => {
+    if (editData && editData.items.length > 0) {
+      return editData.items.map((item) => ({
+        name: item.name,
+        cost: String(item.amount),
+      }));
+    }
+    return INITIAL_ITEMS;
+  });
   const [error, setError] = useState('');
 
   // ─── Handlers ──────────────────────────────────────────────────────────────
@@ -90,16 +99,26 @@ export default function BudgetForm({ onSaved }) {
 
     const totalAmount = filledItems.reduce((sum, item) => sum + item.amount, 0);
 
-    const newBudget = {
-      id: Date.now(),
-      label: label.trim(),
-      totalAmount,
-      items: filledItems,
-    };
-
-    // Simpan ke localStorage
     const existingBudgets = loadFromStorage(STORAGE_KEYS.BUDGETS);
-    saveToStorage(STORAGE_KEYS.BUDGETS, [...existingBudgets, newBudget]);
+
+    if (editData) {
+      // Mode edit: update budget yang sudah ada
+      const updatedBudgets = existingBudgets.map((b) =>
+        b.id === editData.id
+          ? { ...b, label: label.trim(), totalAmount, items: filledItems }
+          : b,
+      );
+      saveToStorage(STORAGE_KEYS.BUDGETS, updatedBudgets);
+    } else {
+      // Mode tambah: buat budget baru
+      const newBudget = {
+        id: Date.now(),
+        label: label.trim(),
+        totalAmount,
+        items: filledItems,
+      };
+      saveToStorage(STORAGE_KEYS.BUDGETS, [...existingBudgets, newBudget]);
+    }
 
     // Reset dan beritahu parent
     setLabel('');
@@ -167,7 +186,7 @@ export default function BudgetForm({ onSaved }) {
           type="submit"
           className="block w-full bg-[var(--color-btn-submit-bg)] text-[var(--color-btn-submit-text)] h-[40px] rounded-md font-medium"
         >
-          SIMPAN
+          {editData ? 'PERBARUI' : 'SIMPAN'}
         </button>
       </div>
     </form>

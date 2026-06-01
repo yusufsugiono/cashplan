@@ -7,6 +7,7 @@ export const ROUTES = {
   HOME: '/',
   BUDGETING: '/budgeting',
   ADD_BUDGET: '/budgeting/new',
+  EDIT_BUDGET: '/budgeting/edit/:id',
   ADD_TRANSACTION: '/transactions/new',
   HISTORY: '/history',
   SETTINGS: '/settings',

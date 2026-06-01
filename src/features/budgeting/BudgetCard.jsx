@@ -1,5 +1,7 @@
 import BudgetItem from './BudgetItem';
+import IconButton from '../../components/ui/IconButton';
 import { formatRupiah } from '../../lib/currency';
+import { FaTrash, FaPenToSquare } from 'react-icons/fa6';
 
 /**
  * BudgetCard — card yang menampilkan satu rencana budget beserta item-itemnya.
@@ -9,9 +11,10 @@ import { formatRupiah } from '../../lib/currency';
  * - totalAmount: number, total budget yang direncanakan
  * - items: array of { id, name, amount, checked }
  * - onDelete: function, dipanggil saat tombol "Hapus" diklik
+ * - onEdit: function, dipanggil saat tombol "Edit" diklik
  * - onToggleItem: function(itemId), dipanggil saat checkbox item diklik
  */
-export default function BudgetCard({ label, totalAmount, items, onDelete, onToggleItem }) {
+export default function BudgetCard({ label, totalAmount, items, onDelete, onEdit, onToggleItem }) {
   return (
     <div className="mx-3 mb-4 border border-solid border-[var(--color-border)] rounded-md p-3">
       {/* Header: label + total nominal */}
@@ -35,15 +38,14 @@ export default function BudgetCard({ label, totalAmount, items, onDelete, onTogg
         ))}
       </div>
 
-      {/* Footer: tombol hapus */}
-      <div className="mt-3 flex justify-center">
-        <button
-          type="button"
-          onClick={onDelete}
-          className="px-4 py-1 text-sm border border-solid border-[var(--color-border)] rounded-md text-[var(--color-muted)] hover:text-red-500 hover:border-red-500"
-        >
+      {/* Footer: tombol edit & hapus */}
+      <div className="mt-3 flex justify-center gap-2">
+        <IconButton icon={FaPenToSquare} variant="primary" onClick={onEdit}>
+          Edit
+        </IconButton>
+        <IconButton icon={FaTrash} variant="danger" onClick={onDelete}>
           Hapus
-        </button>
+        </IconButton>
       </div>
     </div>
   );

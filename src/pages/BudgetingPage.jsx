@@ -75,6 +75,7 @@ export default function BudgetingPage() {
             totalAmount={budget.totalAmount}
             items={budget.items}
             onDelete={() => handleDelete(budget.id)}
+            onEdit={() => navigate(`/budgeting/edit/${budget.id}`)}
             onToggleItem={(itemId) => handleToggleItem(budget.id, itemId)}
           />
         ))
