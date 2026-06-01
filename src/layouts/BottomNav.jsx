@@ -57,7 +57,7 @@ export default function BottomNav() {
           return (
             <button
               key={item.route}
-              onClick={() => navigate(item.route)}
+              onClick={() => navigate(item.route, { replace: true })}
               aria-label={item.label}
               className={`flex flex-col items-center gap-1 text-xs px-3 py-1 ${
                 isActive ? 'text-[var(--color-text)]' : 'text-[var(--color-muted)]'

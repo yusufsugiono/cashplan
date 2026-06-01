@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { FaSackDollar, FaArrowUp, FaArrowDown } from 'react-icons/fa6';
 
 import Greeting from '../features/dashboard/Greeting';
@@ -43,6 +44,22 @@ function calculatePeriod(cycleStartDay) {
 // ─── Komponen ────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  // ─── Back button handling untuk PWA ──────────────────────────────────────
+  // Saat di halaman Home, tekan back = keluar dari app (behavior native Android).
+  // Kita pastikan tidak ada history entry yang tersisa di belakang Home.
+  useEffect(() => {
+    // Push state dummy agar ada entry yang bisa di-pop
+    window.history.pushState({ home: true }, '');
+
+    function handlePopState(e) {
+      // Jika user menekan back di Home, biarkan browser/OS handle (close PWA)
+      // Tidak perlu push ulang — biarkan history habis sehingga OS menutup app
+    }
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   // Baca settings (nama user, siklus)
   const settings = loadSettings();
   const period = calculatePeriod(settings.cycleStartDay);
