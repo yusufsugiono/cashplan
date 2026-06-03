@@ -29,6 +29,8 @@ function validateForm(formData) {
     errors.amount = 'Nominal wajib diisi';
   } else if (isNaN(Number(formData.amount))) {
     errors.amount = 'Nominal harus berupa angka';
+  } else if (Number(formData.amount) <= 0) {
+    errors.amount = 'Nominal harus lebih besar dari 0';
   }
 
   if (!formData.description.trim()) {
@@ -138,8 +140,8 @@ export default function CashflowForm({ mode, onSaved }) {
         label={mode === 'EXPENSE' ? 'Nominal Pengeluaran' : 'Nominal Pemasukan'}
         value={formatThousand(formData.amount)}
         onChange={handleChange}
+        error={errors.amount}
       />
-      {errors.amount && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.amount}</p>}
 
       <Input
         id="description"
@@ -147,13 +149,17 @@ export default function CashflowForm({ mode, onSaved }) {
         label="Deskripsi"
         value={formData.description}
         onChange={handleChange}
+        error={errors.description}
       />
-      {errors.description && (
-        <p className="text-red-500 text-xs -mt-4 mb-4">{errors.description}</p>
-      )}
 
-      <Input id="date" type="date" label="Tanggal" value={formData.date} onChange={handleChange} />
-      {errors.date && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.date}</p>}
+      <Input
+        id="date"
+        type="date"
+        label="Tanggal"
+        value={formData.date}
+        onChange={handleChange}
+        error={errors.date}
+      />
 
       <Select
         id="category"
@@ -162,8 +168,8 @@ export default function CashflowForm({ mode, onSaved }) {
         value={formData.category}
         onChange={handleChange}
         placeholder="Pilih kategori"
+        error={errors.category}
       />
-      {errors.category && <p className="text-red-500 text-xs -mt-4 mb-4">{errors.category}</p>}
 
       <div className="p-2 bg-[var(--color-bg)] border-t border-[var(--color-border)]">
         <button

@@ -10,11 +10,21 @@ import { formatDateID } from '../lib/date';
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 /**
+ * Mengubah Date object ke format string YYYY-MM-DD local time.
+ */
+function toDateString(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
  * Menghitung periode berdasarkan cycleStartDay.
  * Contoh: jika cycleStartDay = 1, maka periode = 1 bulan ini s/d 1 bulan depan.
  *
  * @param {number} cycleStartDay - Tanggal mulai siklus (1-28)
- * @returns {{ start: string, end: string }} Tanggal awal dan akhir periode (formatted)
+ * @returns {{ start: string, end: string, startRaw: string, endRaw: string }} Tanggal awal dan akhir periode
  */
 function calculatePeriod(cycleStartDay) {
   const today = new Date();
@@ -38,6 +48,8 @@ function calculatePeriod(cycleStartDay) {
   return {
     start: formatDateID(startDate.toISOString()),
     end: formatDateID(endDate.toISOString()),
+    startRaw: toDateString(startDate),
+    endRaw: toDateString(endDate),
   };
 }
 
@@ -67,12 +79,17 @@ export default function HomePage() {
   // Ambil semua transaksi dari localStorage
   const transactions = loadFromStorage(STORAGE_KEYS.TRANSACTIONS);
 
-  // Hitung total pemasukan dan pengeluaran dari data yang tersimpan
-  const totalIncome = transactions
+  // Filter transaksi yang masuk dalam periode siklus aktif
+  const transactionsThisPeriod = transactions.filter((t) => {
+    return t.date >= period.startRaw && t.date < period.endRaw;
+  });
+
+  // Hitung total pemasukan dan pengeluaran dari data periode ini
+  const totalIncome = transactionsThisPeriod
     .filter((t) => t.type === 'INCOME')
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const totalExpense = transactions
+  const totalExpense = transactionsThisPeriod
     .filter((t) => t.type === 'EXPENSE')
     .reduce((sum, t) => sum + t.amount, 0);
 
