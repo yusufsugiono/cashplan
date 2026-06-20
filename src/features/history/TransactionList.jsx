@@ -9,7 +9,9 @@ import TransactionItem from './TransactionItem';
  */
 export default function TransactionList({ transactions, filter }) {
   // Filter transaksi berdasarkan tipe yang dipilih
-  const filteredTransactions = transactions.filter((item) => item.type === filter);
+  const filteredTransactions = transactions
+    .filter((item) => item.type === filter)
+    .sort((a, b) => b.date.localeCompare(a.date));
 
   // Tampilkan pesan jika tidak ada data
   if (filteredTransactions.length === 0) {

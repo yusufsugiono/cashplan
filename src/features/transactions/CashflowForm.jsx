@@ -11,7 +11,7 @@ import { loadFromStorage, saveToStorage, STORAGE_KEYS } from '../../lib/storage'
 const INITIAL_FORM = {
   amount: '',
   description: '',
-  date: '',
+  date: new Date().toISOString().split('T')[0],
   category: '',
 };
 
@@ -134,6 +134,15 @@ export default function CashflowForm({ mode, onSaved }) {
       className="mt-5 mx-3 border border-solid border-[var(--color-ring)] rounded-md p-2"
     >
       <Input
+        id="date"
+        type="date"
+        label="Tanggal"
+        value={formData.date}
+        onChange={handleChange}
+        error={errors.date}
+      />
+
+      <Input
         id="amount"
         type="text"
         inputMode="numeric"
@@ -150,15 +159,6 @@ export default function CashflowForm({ mode, onSaved }) {
         value={formData.description}
         onChange={handleChange}
         error={errors.description}
-      />
-
-      <Input
-        id="date"
-        type="date"
-        label="Tanggal"
-        value={formData.date}
-        onChange={handleChange}
-        error={errors.date}
       />
 
       <Select
