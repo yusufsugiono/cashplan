@@ -105,9 +105,7 @@ export default function BudgetForm({ onSaved, editData }) {
     if (editData) {
       // Mode edit: update budget yang sudah ada
       const updatedBudgets = existingBudgets.map((b) =>
-        b.id === editData.id
-          ? { ...b, label: label.trim(), totalAmount, items: filledItems }
-          : b,
+        b.id === editData.id ? { ...b, label: label.trim(), totalAmount, items: filledItems } : b,
       );
       saveToStorage(STORAGE_KEYS.BUDGETS, updatedBudgets);
     } else {
@@ -185,9 +183,7 @@ export default function BudgetForm({ onSaved, editData }) {
       <div className="mb-5 p-3 bg-[var(--color-bg)] border border-solid border-[var(--color-border)] rounded-md">
         <span className="text-sm text-[var(--color-muted)]">Total Biaya</span>
         <p className="text-lg font-medium text-[var(--color-btn-submit-bg)]">
-          {formatRupiah(
-            items.reduce((sum, item) => sum + (item.cost ? Number(item.cost) : 0), 0),
-          )}
+          {formatRupiah(items.reduce((sum, item) => sum + (item.cost ? Number(item.cost) : 0), 0))}
         </p>
       </div>
 

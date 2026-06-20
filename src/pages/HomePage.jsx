@@ -5,53 +5,7 @@ import Greeting from '../features/dashboard/Greeting';
 import SummaryCard from '../features/dashboard/SummaryCard';
 import BottomNav from '../layouts/BottomNav';
 import { loadFromStorage, loadSettings, STORAGE_KEYS } from '../lib/storage';
-import { formatDateID } from '../lib/date';
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-/**
- * Mengubah Date object ke format string YYYY-MM-DD local time.
- */
-function toDateString(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-/**
- * Menghitung periode berdasarkan cycleStartDay.
- * Contoh: jika cycleStartDay = 1, maka periode = 1 bulan ini s/d 1 bulan depan.
- *
- * @param {number} cycleStartDay - Tanggal mulai siklus (1-28)
- * @returns {{ start: string, end: string, startRaw: string, endRaw: string }} Tanggal awal dan akhir periode
- */
-function calculatePeriod(cycleStartDay) {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth(); // 0-indexed
-
-  // Tentukan apakah kita sudah melewati tanggal siklus bulan ini
-  let startDate;
-  let endDate;
-
-  if (today.getDate() >= cycleStartDay) {
-    // Periode: tanggal siklus bulan ini → tanggal siklus bulan depan
-    startDate = new Date(year, month, cycleStartDay);
-    endDate = new Date(year, month + 1, cycleStartDay);
-  } else {
-    // Periode: tanggal siklus bulan lalu → tanggal siklus bulan ini
-    startDate = new Date(year, month - 1, cycleStartDay);
-    endDate = new Date(year, month, cycleStartDay);
-  }
-
-  return {
-    start: formatDateID(startDate.toISOString()),
-    end: formatDateID(endDate.toISOString()),
-    startRaw: toDateString(startDate),
-    endRaw: toDateString(endDate),
-  };
-}
+import { calculatePeriod } from '../lib/period';
 
 // ─── Komponen ────────────────────────────────────────────────────────────────
 
@@ -63,7 +17,7 @@ export default function HomePage() {
     // Push state dummy agar ada entry yang bisa di-pop
     window.history.pushState({ home: true }, '');
 
-    function handlePopState(e) {
+    function handlePopState() {
       // Jika user menekan back di Home, biarkan browser/OS handle (close PWA)
       // Tidak perlu push ulang — biarkan history habis sehingga OS menutup app
     }

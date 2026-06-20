@@ -10,7 +10,15 @@
  * - onChange: function, dipanggil saat nilai input berubah
  * - error: string (opsional), pesan error jika validasi gagal
  */
-export default function Input({ id, label, type, inputMode = '', value = '', onChange, error = '' }) {
+export default function Input({
+  id,
+  label,
+  type,
+  inputMode = '',
+  value = '',
+  onChange,
+  error = '',
+}) {
   return (
     <div className="mb-5">
       <label className="text-sm block mb-1" htmlFor={id}>

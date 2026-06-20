@@ -10,12 +10,19 @@
  */
 
 const VARIANTS = {
-  default: 'text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-ring)]',
+  default:
+    'text-[var(--color-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-ring)]',
   danger: 'text-[var(--color-muted)] hover:text-red-500 hover:border-red-500',
   primary: 'text-[var(--color-muted)] hover:text-blue-500 hover:border-blue-500',
 };
 
-export default function IconButton({ icon: Icon, children, variant = 'default', onClick, className = '' }) {
+export default function IconButton({
+  icon: Icon,
+  children,
+  variant = 'default',
+  onClick,
+  className = '',
+}) {
   const variantClass = VARIANTS[variant] || VARIANTS.default;
 
   return (

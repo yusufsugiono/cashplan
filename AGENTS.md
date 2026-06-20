@@ -114,3 +114,8 @@ Before making changes, read the relevant files in full. Understand the existing 
 | Adding TypeScript | Not currently used. Do not introduce. If the team decides later, it must be a dedicated migration. |
 | Over-engineering (adding state lib, ORM, etc.) | If a pattern doesn't exist in the codebase, do not introduce it. Stay minimal. |
 | Breaking PWA behavior | Test service worker scope (`/cashplan/`) and manifest after changes. |
+
+<!-- SPECKIT START -->
+Current feature: 001-expense-category-chart
+Plan: specs/001-expense-category-chart/plan.md
+<!-- SPECKIT END -->
