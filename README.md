@@ -44,103 +44,65 @@ npm run format:check
 npm run lint
 ```
 
-## Project Structure
+## Dokumentasi Detail
+
+Informasi lebih lanjut tersedia di file berikut:
+
+| File | Isi |
+|---|---|
+| `AGENTS.md` | Coding rules, implementation workflow, risk mitigations |
+| `CONSTITUTION.md` | Arsitektur, konvensi, dependency rules, deployment assumptions |
+| `docs/architecture.md` | Topologi aplikasi, data flow, routing, theming, PWA |
+| `docs/module-map.md` | Struktur direktori lengkap, tanggung jawab tiap modul, dependency flow |
+| `docs/api-map.md` | Storage API interface, data flow untuk setiap fitur |
+| `docs/database-map.md` | Schema localStorage, data relationships, query patterns |
+
+## Spec-Driven Development (SDD) dengan Speckit
+
+Project ini menggunakan **Speckit** untuk Spec-Driven Development — workflow sistematis dari spesifikasi hingga implementasi dengan review gates di setiap tahap.
+
+### Prasyarat
+
+- **OpenCode** sudah terinstall dan aktif
+- Jalankan semua perintah dari **root project**
+- Speckit akan membaca `CONSTITUTION.md` dan `.specify/memory/constitution.md` sebagai konteks
+
+### Workflow
 
 ```
-src/
-├── assets/                  # Static assets
-│   ├── fonts/               # Self-hosted fonts (Inter variable)
-│   └── styles/              # Global CSS (Tailwind directives, CSS variables, reset)
-│
-├── components/              # Shared/reusable components
-│   └── ui/                  # Generic UI primitives (tidak terikat fitur tertentu)
-│       ├── Input.jsx        # Text input dengan label
-│       ├── Select.jsx       # Dropdown select dengan label
-│       ├── PillButton.jsx   # Toggle button berbentuk pill
-│       └── PillButtonGroup.jsx  # Container untuk PillButton
-│
-├── constants/               # App-wide constants dan static data
-│   ├── categories.js       # Daftar kategori expense & income
-│   └── routes.js           # Definisi semua route path aplikasi
-│
-├── features/                # Feature-based modules (grouped by domain)
-│   ├── dashboard/           # Fitur halaman utama
-│   │   ├── Greeting.jsx     # Komponen sapaan + info periode
-│   │   └── SummaryCard.jsx  # Card ringkasan saldo/pemasukan/pengeluaran
-│   └── transactions/        # Semua yang terkait fitur transaksi
-│       └── CashflowForm.jsx # Form untuk input transaksi baru
-│
-├── hooks/                   # Custom React hooks
-│
-├── layouts/                 # Layout/structural components
-│   ├── AppBar.jsx           # Top navigation bar dengan back button
-│   └── BottomNav.jsx        # Bottom navigation bar (halaman utama)
-│
-├── lib/                     # Utility functions, helpers, formatters
-│   ├── currency.js          # formatRupiah()
-│   └── storage.js           # Wrapper localStorage (loadFromStorage, saveToStorage)
-│
-├── pages/                   # Route-level page components (1 file = 1 route)
-│   ├── HomePage.jsx         # Route: /
-│   └── AddNewTransaction.jsx # Route: /transactions/new
-│
-├── App.jsx                  # Root component, route definitions
-└── main.jsx                 # Entry point, providers (BrowserRouter, StrictMode)
+specify → [review gate] → plan → [review gate] → tasks → implement → converge
 ```
 
-## Architecture Guidelines
+### Langkah-Langkah
 
-Panduan untuk menentukan di mana kode baru harus diletakkan:
+| Step | Perintah | Deskripsi |
+|---|---|---|
+| **1. Specify** | `speckit run` atau `/speckit.specify "deskripsi fitur"` | Buat feature specification — user stories, acceptance criteria, requirements, edge cases |
+| **2. Review Spec** | (gate otomatis) | Approve untuk lanjut ke planning, atau reject untuk revisi |
+| **3. Plan** | `/speckit.plan "fitur"` | Generate implementation plan — technical context, structure, risks |
+| **4. Review Plan** | (gate otomatis) | Approve/reject sebelum task generation |
+| **5. Tasks** | `/speckit.tasks "fitur"` | Breakdown ke task list terurut per user story dengan dependencies |
+| **6. Implement** | `/speckit.implement "fitur"` | Eksekusi task satu per satu — Speckit akan mengimplementasi sesuai task list |
+| **7. Converge** | `/speckit.converge` | Review hasil akhir, pastikan semua task selesai dan tidak ada regresi |
 
-### `components/ui/`
-Komponen UI generik yang **tidak memiliki business logic** dan bisa dipakai di mana saja.
-- Contoh: Button, Input, Modal, Card, Badge
-- Tidak boleh import dari `features/` atau `pages/`
-- Props-driven, stateless atau minimal local state
+### Contoh: Menambahkan Fitur Baru
 
-### `features/<nama-fitur>/`
-Komponen dan logic yang **spesifik ke satu fitur/domain**.
-- Contoh: `features/transactions/`, `features/budget/`, `features/reports/`
-- Boleh import dari `components/ui/`, `constants/`, `lib/`, `hooks/`
-- Jika sebuah fitur punya sub-components, constants, atau hooks sendiri, letakkan di dalam folder fitur tersebut
+```bash
+# Langsung pakai workflow (recommended):
+speckit run "Tambah halaman statistik dengan chart pengeluaran per kategori"
 
-### `layouts/`
-Komponen **structural** yang membentuk kerangka halaman.
-- Contoh: AppBar, Sidebar, BottomNav, PageWrapper
-- Tidak mengandung business logic, hanya layout concern
+# Atau step by step:
+# 1. /speckit.specify "Tambah halaman statistik dengan chart pengeluaran per kategori"
+# 2. Review spec → approve
+# 3. /speckit.plan "Tambah halaman statistik dengan chart pengeluaran per kategori"
+# 4. Review plan → approve
+# 5. /speckit.tasks "Tambah halaman statistik dengan chart pengeluaran per kategori"
+# 6. /speckit.implement "Tambah halaman statistik dengan chart pengeluaran per kategori"
+# 7. /speckit.converge
+```
 
-### `pages/`
-Komponen **top-level per route**. Tugasnya meng-compose layout + features.
-- 1 file = 1 route
-- Boleh import dari semua folder lain
-- Mengatur state yang perlu di-share antar komponen di halaman tersebut
+### Catatan
 
-### `constants/`
-Data statis dan konfigurasi yang dipakai lintas fitur.
-- Contoh: category lists, enum values, route paths, config keys
-- Pure data, tidak ada logic
-
-### `hooks/`
-Custom React hooks yang dipakai lintas fitur.
-- Contoh: `useLocalStorage`, `useMediaQuery`, `useDebounce`
-- Jika hook hanya dipakai oleh satu fitur, letakkan di dalam folder fitur tersebut
-
-### `lib/`
-Utility functions murni (non-React) yang dipakai lintas fitur.
-- Contoh: `formatCurrency()`, `formatDate()`, `generateId()`
-- Pure functions, tidak ada React-specific code
-
-## Theming
-
-Aplikasi menggunakan CSS Custom Properties untuk theming. Mendukung:
-- Light mode (default)
-- Dark mode (otomatis via `prefers-color-scheme` atau manual via `data-theme="dark"`)
-
-Variabel warna didefinisikan di `src/assets/styles/main.css`.
-
-## Conventions
-
-- **Naming:** PascalCase untuk komponen, camelCase untuk functions/variables, UPPER_SNAKE_CASE untuk constants
-- **Exports:** Default export untuk komponen, named export untuk constants dan utilities
-- **Formatting:** Diatur oleh Prettier (single quotes, trailing commas, 100 char width)
-- **Self-closing tags:** Gunakan `<Component />` bukan `<Component></Component>` jika tidak ada children
+- Setiap step menghasilkan file di `specs/<nama-fitur>/` yang bisa direview sebelum lanjut
+- Pastikan selalu run `npm run lint` dan `npm run build` setelah implementasi
+- Untuk perubahan kecil, cukup gunakan `/speckit.implement` langsung tanpa workflow penuh
